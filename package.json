@@ -1,0 +1,21 @@
+{
+  "name": "cypress_alert_issue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "http-server": "^0.11.1"
+  },
+  "devDependencies": {
+    "cypress": "^3.2.0"
+  },
+  "scripts": {
+    "static": "http-server .",
+    "express": "node app.js",
+    "cypress:open": "cypress open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

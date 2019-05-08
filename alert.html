@@ -1,0 +1,2529 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/seller_template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- SiteMap -->
+<meta name="google-site-verification" content="g1tlroYW-dChyLSinXJxV7BeP_T8nsDP1HpFSwORDgE" />
+<meta charset="UTF-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+
+<title>選擇支付方式 | 綠界科技 ECPay</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+
+<base href="https://payment-stage.ecpay.com.tw/" />
+
+<!-- InstanceEndEditable -->
+<link rel="shortcut icon" href="/Content/themes/WebStyle201401/images/favicon.ico" />
+<!-- CSS -->
+<link href="/Content/themes/WebStyle201401/css/global.css" rel="stylesheet" type="text/css" />
+<link href="/Content/themes/WebStyle201401/css/responsive.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]<link href="css/ie_layout.css" rel="stylesheet" type="text/css" /> <![endif]-->
+<!-- InstanceBeginEditable name="css" -->
+<link href="/Content/themes/WebStyle201401/css/seller_pay.css?20190125" rel="stylesheet" type="text/css" />
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head_js" -->
+
+<!-- InstanceEndEditable -->
+<!-- js -->
+<script type="text/javascript" src="/Scripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.superslides.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.sticky.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript" src="/Scripts/custom.js"></script>
+<script type="text/javascript" src="/Scripts/index.js"></script>
+<script type="text/javascript" src="/Scripts/cufon-yui.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.timers-1.2.js"></script>
+<!-- End: js -->
+<!-- InstanceBeginEditable name="js" -->
+
+<script type="text/javascript" src="/Scripts/accordion/highlight.pack.js"></script>
+<script type="text/javascript" src="/Scripts/accordion/jquery.cookie.js"></script>
+<script type="text/javascript" src="/Scripts/accordion/jquery.accordion.js"></script>
+<script type="text/javascript" src="/Scripts/page.js"></script>
+
+
+<style type="text/css">
+    .nav-section-inner h3{font-weight:bold;}
+</style>
+ <!--Google Analytics-->
+        <script language="javascript" type="text/javascript">
+        console.log('helloecpay', window.yee)
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+         m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-71320942-1', 'auto');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+
+        </script>
+
+</head>
+<body>
+<div class="wrapper">
+  <div class="go_top">
+      <a href="#">GO TOP</a>
+  </div>
+<!-- header -->
+<div class="gblHeader pag_Header"  >
+    <div id="nav" class="gblnav pa_gblnav">
+        <div class="container">
+            <div class="Logo sell_logo">
+                <a class="navbar-brand" href="https://www-stage.ecpay.com.tw" target="_blank"></a>
+            </div>
+            <p class="left and" style="display:none;">and</p>
+            <div class="store_logo" style="display:none;"><img src="/Content/themes/WebStyle201401/images/header_logo.png" width="120" height="71" alt="EcPay綠界科技" /></div>
+            <div class="lap utility lang-tw">   
+                
+                
+                
+          </div>
+        </div>
+    </div>
+</div>
+<!-- End:header -->
+        
+<script type="text/javascript">
+    var _currentDomain = 'https://payment-stage.ecpay.com.tw';
+    // var _isStage = (_currentDomain == 'https://payment-stage.ecpay.com.tw') ? true : false;
+    var _isStage = true;
+
+    var SelectedPay = "";
+
+    function getLoginStatus() {
+        var isLoginInt = parseInt("0", 10);
+        return (isLoginInt == 1);
+    }
+
+    function getBalanceAmount() {
+        //return parseInt("0", 10);
+        return 0;
+    }
+
+    function getShoppingAmount() {
+        return parseInt("0", 10);
+    }
+</script>
+<script src="/Scripts/ECPayScripts/paymentUtility.js?v=2019050806" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+
+        //定期定額扣款區間文字設定
+        if('')
+        {
+            var periodtips = paymentUtility.CreditPeriod.GetDeductTips('','0','0');
+            $("#PeriodTips").text(periodtips);
+        }
+
+        if('' == "Y"){
+            alert("綠界科技會員登入成功，請重新選擇付款方式，完成本次交易流程。");
+//            $("#SelectTradeTypeLogin").val("");
+        }
+
+        // 隱藏警示說明視窗
+        $('.dialog-mask').hide();
+
+        // 顯示警示說明
+        $("#btnConfirm").click( function()  {            
+          $(".dialog-mask").fadeIn(500);        
+            $(".dialog-overlay").addClass("alpha");
+        } ) ;
+
+        // 關閉警示說明
+        $('#btnCloseCofrim').click(function(){         
+              $(".dialog-mask").fadeOut(500);   
+         })
+
+        //### 信用卡3D驗證
+        $('.dialog-Box').hide();         
+         switchLang();
+        $('.InstallmentAll').attr("checked",true); //設定打勾
+         //switchInstallment();
+
+        //### 選付款方式時的開閤效果，預設全關。
+        $('.accordion').removeClass('accordion-open').removeClass('accordion-close');
+        $('.accordion').addClass('accordion-close');
+        $('.nav-section-inner').hide();
+        
+        //### 檢查可用的付款方式數量，只有一種時，預設為開啟。
+        var countPaymentType = 2;
+        //有使用AndoridPay頁面不支援時需減一
+        var GooglePayNotsupport = 0;
+        //if(!window.PaymentRequest && '1' != '0')
+        if('1' != '0')
+        {
+            GooglePayNotsupport = 1;
+            countPaymentType = countPaymentType - 1;
+        }
+        if (countPaymentType == 1) {
+            $('.accordion').addClass('accordion-open');
+            $('.nav-section-inner').show();
+            if(GooglePayNotsupport == 1){
+                $('.GooglePay').hide();
+                $('.GooglePay').removeClass('accordion-open');
+            }
+            AccordionClickEvent($('.accordion'));
+        }
+        else if(countPaymentType == 0 && GooglePayNotsupport == 1)
+        {
+            $('.titol').hide();
+            $('.GooglePayNotsupport').show();
+        }
+
+        //### 付款方式沒有歐付寶餘額時，不顯示歐付寶餘額折抵
+        if($("#nav-section2").length ==0){
+            $("#divBalanceDiscount").css("display","none");
+        }
+
+        //### 檢查在登入的狀態下且有餘額時，顯示「下一步」按鈕並將付款方式全部隱藏
+        if(getLoginStatus() && ((getBalanceAmount() > 0 && 0 > 0 && '1' != '1' ) || getShoppingAmount() > 0)) {
+            $("#btnShowNext").show();
+            $(".content").hide();
+        }
+
+        //### 當廠商傳入付款方式只有歐付寶餘額時，不顯示餘額折抵，直接展開付款方式
+        if('2' == 1 && '0' > 0 ){
+            if('0' == 0)
+            {
+                $("#btnShowNext").hide();
+                $("#divShoppingDiscount").hide();
+                $("#divBalanceDiscount").hide();
+                $(".content").show();
+            }
+            else{
+                $("#divBalanceDiscount").hide();
+            }
+        }
+        
+        //### 無法使用購物金/歐付額餘額折抵時，直接顯示付款方式
+        if('1' == '0' && '1' == '0' ) {
+            $("#btnShowNext").hide();
+            $("#divShoppingDiscount").hide();
+            $("#divBalanceDiscount").hide();
+            $(".content").show();
+        }
+
+        //### 檢查若無任何付款折抵方式時，直接顯示付款方式
+        if($("#divShoppingDiscount").length ==0 && $("#divBalanceDiscount").length ==0){
+            $("#btnShowNext").hide();
+            $("#divShoppingDiscount").hide();
+            $("#divBalanceDiscount").hide();
+            $(".content").show();
+        }
+
+        //介接選信用卡分期時，且使用歐付寶金流時，顯示歐付寶付款方式，預設展開信用卡
+        if ('False' == 'True')
+        {
+            $('#nav-section3').addClass('accordion-open');
+            $('#CreditPayDetail').show();
+        }
+
+        $('#useShoppingAMT').attr('checked', true);
+
+        //當訂單為金石堂的要開放3倍紅利
+        if ('False' == 'True') {
+            $("#reward3").addClass('reward active3');
+        }
+
+        //登入前，選擇的付款方式
+        var isChoosePayBeforeLogin = '';
+
+        if (isChoosePayBeforeLogin != '') {
+            $('.' + isChoosePayBeforeLogin).addClass('accordion-open');
+            $('.' + isChoosePayBeforeLogin).next('.nav-section-inner').show();
+        }
+
+        //### 儲值支付帳戶查詢餘額
+        $('input[name=topupusedPayType]').click(function () {
+            var paymentName = $('input[name=topupusedPayType]:checked').val();
+            if (paymentName == '10028@2@TopUpUsed_ESUN') {
+                //玉山
+                $('#topupBalance').html('帳戶內金額有： <a href="/TopUp/Balance" class="btn_gray" target="_blank">查詢金額</a>');
+            }
+            else if (paymentName == '10028@3@TopUpUsed_MEGA') {
+                //兆豐
+                $('#topupBalance').html('帳戶內金額有： <a href="http://203.66.132.14/MPS/MPSDispatcher?DEFAULT_PAGE=11" class="btn_gray" target="_blank">查詢金額</a>');
+            }
+            else {
+                return false;
+            }
+        });
+
+        var chkTradeType = 'aio';
+        if (chkTradeType == 'topup') {
+            $('.accordion TopupUsedPay').addClass('accordion-open');
+            $('.nav-section-inner').show();
+        }
+
+        //輸入信用卡卡號時，自動跳格。
+        $('.creditNum').keyup(function () {
+            var inputs = $('.creditNum');
+            var CardPart1 = $("#CCpart1").val();
+            var CardPart2 = $("#CCpart2").val();
+
+            if (CardPart1 == '' || CardPart2 == '') {
+                $('#showBankName').html('');
+            }
+
+            if ($(this).val().length == 4) {
+                inputs.eq(inputs.index($(this)) + 1).focus();
+            }
+        });
+
+        $('#CCpart1').bind('keyup', function () {           
+            if (this.value.length == 1)  
+                $(".picCreadit").fadeOut();
+
+            paymentUtility.CreditCard.SetIssuingBankLogoBy(this.value);
+        });
+
+        $('#CCpart2').blur(function () {
+            var CardPart1 = $("#CCpart1").val();
+            var CardPart2 = $("#CCpart2").val();
+
+            if (CardPart1 != null && CardPart2 != null && CardPart1.length == 4 && CardPart2.length == 4) {
+                $.ajax({
+                    type: "post",
+                    url: "/Cashier/GetBankName",
+                    dataType: "json",
+                    data: {
+                        CardPart1: CardPart1,
+                        CardPart2: CardPart2
+                    },
+                    success: function (data) {
+                        if (data.RtnCode == 1) {
+                            $('#showBankName').html(data.BankName);                           
+                        }else{
+                            $('#showBankName').html('');
+                        }
+                    }
+                });
+            }
+        });
+
+        //Mantis 9919 【綠界】前台_買家非會員開關 add by Jack 2016/1/4
+        //綠界買家會員標識
+        var IsgwBuyer = 'True';
+
+        //會員的設用信用卡-預設用的卡
+        var defaultCard = '0';
+        var creditPayCount = '13';
+        var defaultCardName = '';
+
+        $('.cellPhoneCheck').focus(function () {
+            checkOnFocus('CellPhoneCheck');
+        });
+
+        //checkOnBlur('CellPhoneCheck');
+
+        //限制只能輸入數字
+        var regExOversea = /^[0-9]{10,20}$/;
+        var regExCellPhone = /^09[0-9]{8}$/;
+
+        $('.cellPhoneCheck').blur(function () {
+            var s = $(this).val().replace("+", "");
+            var cellphone = s.substr(0, 2);
+
+            if (cellphone == '09') {
+                checkOnBlur('CellPhoneCheck', regExCellPhone);
+            }
+            else if (s.substr(0, 4) == "8869") {
+                alert("台灣手機號碼請直接輸入手機區碼「09」例如：0937123456，謝謝");
+                $(this).val("0" + s.replace("886", ""));
+            }
+            else {
+                checkOnBlur('CellPhoneCheck', regExOversea);
+            }
+        });
+
+        $('.cellPhoneCheck').focus(function () {
+            checkOnFocus('CellPhoneCheck');
+        });
+
+         //Mantis 9919 【綠界】前台_買家非會員開關 add by Jack 2016/1/4
+        if (!IsgwBuyer) {
+        if (defaultCard == 1 && creditPayCount > 0) {
+
+            $('#CreditID')[0].selectedIndex = 1;
+
+            var defaultCard4No = '****';
+
+            //設定信用卡
+            $('#CCpart1').val("****").attr('disabled', true);
+            $('#CCpart2').val("****").attr('disabled', true);
+            $('#CCpart3').val("****").attr('disabled', true);
+            $('#CCpart4').val(defaultCard4No).attr('disabled', true);
+            $('#CreditAuth').val("***").attr('disabled', true);
+            //$('#CCHolderTemp').val(defaultCardName).attr('disabled', true);
+
+            $("#CreditMM").find(":selected").text("**");
+            $("#CreditYY").find(":selected").text("**");
+            $("#CreditMM").attr('disabled', true);
+            $("#CreditYY").attr('disabled', true);
+
+            $("#CreditBinding").attr('checked', false).attr('disabled', true);
+            $('.creditBinding').hide();
+
+            $("#Cardcvv").hide();
+
+            if($('#CreditID').val().length>6){
+                $("#CreditCardID").val($('#CreditID').val().substr(0,($('#CreditID').val().length-6)));
+            }
+        }
+        }
+
+        if (defaultCard == 1)
+        {
+            $('#IsBindingCredit').val('1');
+            $("#CreditCardID").val('1');
+            $(".UnEditCreditInfo").show();
+            $(".EditCreditInfo").hide(); 
+            $("#CCpart1").keyup();
+            $(".CreditBinding").hide();
+
+            if('0' == '0' && '1' == '0')
+            {
+                $("#Cardcvv").show();
+            }
+
+            //顯示發行信用卡
+            var card6No = '******';
+            paymentUtility.CreditCard.SetIssuingBankLogoBy(card6No.substr(0, 4));
+
+            $.ajax({
+                    type: "post",
+                    url: "/Cashier/GetBankName",
+                    dataType: "json",
+                    data: {
+                        CardPart1: card6No.substr(0, 4),
+                        CardPart2: card6No.substr(4, 2) + '00'
+                    },
+                    success: function (data) {
+                        if (data.RtnCode == 1) {
+                            $('#showBankName').html(data.BankName);                           
+                        }else{
+                            $('#showBankName').html('');
+                        }
+                    }
+                });
+
+            $('.CellPhoneCheck_empty').hide();
+        }
+        else
+        {
+            $(".EditCreditInfo").show();
+            $(".UnEditCreditInfo").hide();            
+        }
+
+        $('#CreditID').change(function () {
+
+            $('.paymentCredit').attr("checked", true);
+
+            var selected = $("#CreditID option:selected").val();
+            var selectedTxt = $("#CreditID option:selected").text();
+            selectedTxt = selectedTxt.split('：')[1];
+
+            if (selected == 0) {
+                //自行輸入信用卡
+                $('#CCpart1').val("").attr('disabled', false);
+                $('#CCpart2').val("").attr('disabled', false);
+                $('#CCpart3').val("").attr('disabled', false);
+                $('#CCpart4').val("").attr('disabled', false);
+                $('#CreditAuth').val("").attr('disabled', false);
+                $('#CCHolderTemp').val("").attr('disabled', false);
+
+                var mm = $("#CreditMM").find(":selected").val();
+                var yy = $("#CreditYY").find(":selected").val();
+                $("#CreditMM").find(":selected").text(mm);
+                $("#CreditYY").find(":selected").text('20' + yy);
+
+                $("#CreditMM").find("option:first").text('請選擇');
+                $("#CreditYY").find("option:first").text('請選擇');
+
+                $('#CreditMM').attr('selected', false);
+                $('#CreditYY').attr('selected', false);
+
+                $("#CreditMM option:first").attr('selected', true);
+                $("#CreditYY option:first").attr('selected', true);
+
+                $("#CreditMM").attr('disabled', false);
+                $("#CreditYY").attr('disabled', false);
+
+                $("#CreditBinding").attr('checked', true).attr('disabled', false);
+                $('.creditBinding').show();
+
+                $("#Cardcvv").show();
+
+            } else {
+                //Mantis 9919 【綠界】前台_買家非會員開關 add by Jack 2016/1/4
+                if (!IsgwBuyer) {
+                //選擇會員的設定信用卡
+                $('#CCpart1').val("****").attr('disabled', true);
+                $('#CCpart2').val("****").attr('disabled', true);
+                $('#CCpart3').val("****").attr('disabled', true);
+                $('#CCpart4').val(selectedTxt).attr('disabled', true);
+                $('#CreditAuth').val("***").attr('disabled', true);
+                //$('#CCHolderTemp').val(defaultCardName).attr('disabled', true);
+
+                $("#CreditMM").find(":selected").text("**");
+                $("#CreditYY").find(":selected").text("**");
+                $("#CreditMM").attr('disabled', true);
+                $("#CreditYY").attr('disabled', true);
+
+                $("#CreditBinding").attr('checked', false).attr('disabled', true);
+                $('.creditBinding').hide();
+
+                $("#Cardcvv").hide();
+
+                //$('#CCHolderTemp').val("***").attr('disabled', true);
+            }
+            }
+
+            if($('#CreditID').val().length>6){
+                $("#CreditCardID").val($('#CreditID').val().substr(0,($('#CreditID').val().length-6)));
+            }
+
+            
+        });
+
+
+        //** ATM, 臨櫃繳款的選擇判斷
+        AtmTypeChange();
+
+        $('#AtmType').change(function () {
+            AtmTypeChange();
+        });
+
+        //### 會員登入
+        $('.loginForm').click(function () {
+            //###取得已選擇的付款方式
+            var isChoosePayBeforeLogin = $(this).attr('id');
+
+            isChoosePayBeforeLogin = isChoosePayBeforeLogin.replace("BeforeLogin", "")
+            $('#isChoosePayBeforeLogin').val(isChoosePayBeforeLogin);
+
+            //不顯示離開網頁的警告訊息.
+            $('#isSubmitting').val('1');
+            $("#LoginForm").submit();
+        });
+
+        //### 變更卡號
+        $('#CreditCardChange').click(function () {       
+            alert("若欲清除此次綁卡資料，須完成此筆訂單交易後，下次進入此結帳頁將不顯示綁卡資訊。");
+             
+            $("#CreditCardID").val('0');
+            $('.EditCreditInfo').show();
+            $(".UnEditCreditInfo").hide();
+            $(".CreditBinding").show();
+            $("#CreditBinding").attr('checked', true);
+
+            $("#disableUnionPay").val('1');
+            $(".up").hide();
+
+            $(".picCreadit").hide();
+            $("#showBankName").html('');
+
+            $("#CCHolderTemp").hide();
+            $("#divUnEditCardHolder").show();
+
+            $("#CellPhoneCheck").hide();
+            $("#divUnEditCellPhone").show();
+
+            $('#CreditMM').attr('selected', false);
+            $('#CreditYY').attr('selected', false);
+
+            $("#CreditMM option:first").attr('selected', true);
+            $("#CreditYY option:first").attr('selected', true);
+        });
+
+        //### 刪除卡號
+        $('#CreditCardDelete').click(function () { 
+            alert("若欲清除此次綁卡資料，須完成此筆訂單交易後，下次進入此結帳頁將不顯示綁卡資訊。"); 
+                      
+            $("#CreditCardID").val('2');
+            $("#CellPhoneCheck").val('');
+            $("#CCHolderTemp").val('');
+            $('.EditCreditInfo').show();
+            $(".UnEditCreditInfo").hide();
+            $(".CreditBinding").show();
+            $("#CreditBinding").attr('checked', true);
+
+            $("#disableUnionPay").val('1');
+            $(".up").hide();
+
+            $(".picCreadit").hide();
+            $("#showBankName").html('');
+
+            $('#CreditMM').attr('selected', false);
+            $('#CreditYY').attr('selected', false);
+
+            $("#CreditMM option:first").attr('selected', true);
+            $("#CreditYY option:first").attr('selected', true);
+        });
+
+        //### 銀聯卡判斷，是即隱藏卡號資料輸入欄位。
+        $('#card_type').change(function () {
+            var rdoInstallmentVal =$("#rdoInstallment").val();            
+            var cardType = $('#card_type :selected').val();
+            if (cardType == 'UnionPay') {
+                $('.noUnionPay').hide();
+                $('#divCellPhone').show();
+                //-- 銀聯卡時記錄卡號勾選隱藏, 改說明
+                $(".CreditBindingCard").hide();
+                $(".CreditBindingCard_UnionPay").show();
+                $(".unionPayNotes").show();
+            } else {
+                $('.noUnionPay').show();
+                //-- 銀聯卡
+                $(".CreditBindingCard").show();
+                $(".CreditBindingCard_UnionPay").hide();
+                 $(".unionPayNotes").hide();
+            }            
+//            if( cardType!='UnionPay' &&  rdoInstallmentVal!=0  )
+//            {
+//                showCreditInstallment();        
+//             }
+//            else
+//            {
+//                showTradeTotalAMT();
+//             }
+        });
+
+        //### 點擊overlay自動關閉
+        $('.dialog-overlay').click(function () {
+            ClosePopup();
+        });
+
+        /*
+        $("input[name='cvsPayType']").change(function () {
+            paymentName = $('input[name="cvsPayType"]:checked').val();
+            if (paymentName == '10003@5@CVS_IBON') {
+                alert('請注意，ibon入帳時間需30分鐘以上，可多加使用全家或其他超商代碼。');
+            }
+        })
+        */
+
+
+        //### 分期期數/紅利折抵        
+        var stageCount = parseInt('0');
+        var redeemCount = "0" == "" ? 0 : parseInt("0",10);
+        
+        $("#radioStage").click(function () {
+
+             $("#divCreditInstallment").show();
+             $("#divInstallment").show();
+             $("#pRedeem").hide();
+         });
+
+         $("#radioRedeem").click(function () {
+
+             $("#divCreditInstallment").hide();
+             $("#divInstallment").hide();
+             $("#pRedeem").show();
+         });
+
+        switch (stageCount>0 && redeemCount>0) {
+            case true:
+                $("#radioStage").attr("checked", true);
+                $("#radioStage").trigger('click');
+                break;
+
+            default:
+                if (stageCount>0) {
+                    $("#radioStage").attr("checked", true);
+                    $("#radioStage").trigger('click');
+                }
+
+                if (redeemCount>0) {
+                    $("#radioRedeem").attr("checked", true);
+                    $("#rdoRedeem").css("display","block");
+                }
+                break;
+        }
+ 
+        //### 按下確認送出時，付款資料判斷
+        $('.readySubmit').click(function () {
+            LockSubmit(true);
+            //Mantis 9919 【綠界】前台_買家非會員開關 add by Jack 2016/1/4
+            if (!IsgwBuyer) {
+            //------- 專法修改:建立訂單時，需要登入歐付寶會員，再導至付款選擇頁  By Nick(2015-04-17) -----Start
+            if('0' == 1){
+                if('False' == "False")
+                {
+                    var loginType =  $(this).attr('LoginType');
+                
+                    if(loginType != null && loginType != "" && (loginType != "CreditPayBeforeLogin" || '0' == 1 )){
+                    
+                        if(confirm("因應電子支付機構管理辦法之規定，此筆交易將進行會員身分確認及交易安全之相關驗證！"))
+                        {
+                            $('#SelectTradeTypeLogin').val("Y");
+                            $('#' + loginType).trigger('click');                    
+                        }
+                        LockSubmit(false);
+                        return false;               
+                    }
+                }
+            }
+            //------- 專法修改:建立訂單時，需要登入歐付寶會員，再導至付款選擇頁  By Nick(2015-04-17) -----End
+            }
+
+            var submitType = $(this).attr('id');
+            var paymentName = '';
+            var currency = '';
+            var oriTradeTotalAMT = parseFloat('');
+            var oriInstallmentAmount= parseFloat('0');
+            var oriInstallment=parseFloat('0');       
+        
+            var alertContent = "";
+
+            //Mantis4815:Stage付款選擇頁增加警語.
+            if (_isStage && $('#warnSubmitPay').val() != submitType) {
+                if (!$('#btnShowNext').length || $('#btnShowNext').css('display') == 'none' || submitType != 'TopupUsedAllPaySubmit') {
+                    //先判斷是否有購物金/歐付寶帳戶折抵.
+                    $('#warnSubmitPay').val(submitType);
+                    alert('您目前正在使用的是綠界科技的付款測試環境，請消費者勿進行相關的付款動作，以免影響權益！');
+                    LockSubmit(false);
+                    return false;
+                }
+            }
+
+            //購物金折抵
+            var tradeAmount = $('#TradeAmount').val();
+            var shoppingAmount = $('#ShoppingAmount').val();
+
+            if (typeof(shoppingAmount) != "undefined" && CheckShoppingAMT("submit") == true ) {
+                shoppingAmount = (shoppingAmount !="" && IsNum(shoppingAmount) && !isNaN(shoppingAmount)) ? parseInt(shoppingAmount) : 0
+            }
+            else{
+                shoppingAmount = 0;
+            }
+           
+            var balanceAmount = $("#BalanceAmount").val();           
+            if(typeof(balanceAmount) != "undefined" && CheckBalanceAMT("submit") == true) {              
+                balanceAmount = (balanceAmount !="" && IsNum(balanceAmount) && !isNaN(balanceAmount)) ? parseInt(balanceAmount) : 0;
+            }
+            else{
+                balanceAmount = 0;
+            }
+         
+            //判斷選擇的付款方式
+            switch (submitType) {
+                case 'TopupUsedPaySubmit': //儲值支付帳戶
+                    //paymentName = $('input[name="topupusedPayType"]').val();
+                    paymentName = $('input[name=topupusedPayType]:checked').val();
+                    break;
+                case 'TopupUsedAllPaySubmit': //歐付寶帳戶
+
+                case 'TopupUsedAllPayStep2Submit': //歐付寶餘額
+                    paymentName = '10028@1@TopUpUsed_AllPay';
+
+                    break;
+                    
+                case 'CreditPaySubmit': //信用卡
+                    var cardType = $('#card_type :selected').val();
+                    var rdoInstallmentVal =$("#rdoInstallment").val();  //買家所選擇的分期數
+                    var  TradeInstmt="0" ;
+                    var  installmentAmount="0";
+                    var TradeAmount = $('#TradeAmount').val();
+                    var checkAmount = TradeAmount;
+                    var creditInstallments = parseInt('0');
+                    //付款方式為信用卡時，不得使用購物金、歐付寶帳戶
+                    if (shoppingAmount > 0 || balanceAmount > 0) {
+                        alert("購物金及綠界科技帳戶折抵與信用卡付款不得同時使用.")
+                        LockSubmit(false);
+                        return false;
+                    }                 
+                  
+                    if((oriInstallment > 0 || creditInstallments > 0) && (cardType != 'UnionPay' ))
+                    {
+                        checkAmount = TradeAmount;
+                        if (rdoInstallmentVal == "") {
+                             alert("請輸入分期期數.");
+                             LockSubmit(false);
+                             return false;
+                        }
+                    }
+
+                    if(!confirm("您確定使用信用卡，支付此筆訂單金額(新台幣)：" + checkAmount +  "元")){
+                       LockSubmit(false);
+                       return false;
+                    }
+                    paymentName = $('input[name="creditPayType"]').val();
+                    TradeInstmt="0" ;
+                    installmentAmount="0";
+
+                    //有使用分期時(非銀聯)
+                    if(rdoInstallmentVal !=0){
+                        if ((oriInstallment > 0 || creditInstallments > 0) && (cardType != 'UnionPay')) 
+                        {
+                             //有可以分期的銀行才顯示                        
+                             if(creditInstallments > 0){    
+                                //  $('#TradeInstmt').val( rdoInstallmentVal);    //買家所選擇之分期數                
+                                 TradeInstmt=rdoInstallmentVal;
+                                 installmentAmount="0";
+                                 paymentName = $('input[name="creditInstallmentPayType"]').val();  
+
+                                 //#region 檢查信用卡是否為廠商分期可用銀行
+                                 var model =  {
+                                        CardNo : ($("#CreditCardID").val() == 1) ? '******' : ''.concat($('#CCpart1').val() + $('#CCpart2').val()),
+                                        MerchantID : 'XXXXX',
+                                        Installments : rdoInstallmentVal
+                                 };
+
+                                 if(!paymentUtility.Check.CreditCard.IsAvailableInstallments(model , '/AioPaymentRule/CheckIsCardAvailableInstallments'))
+                                 {
+                                    LockSubmit(false);
+                                    return false;
+                                 }
+                                 //#endregion
+                              }                 
+                          }
+                    } 
+
+                    var CreditID = $("#CreditID option:selected").val();
+                    var needOTPForAIO = '1';
+
+                    if (cardType == 'UnionPay') {
+                        $('#UnionPay').val('1');
+                        $('#SetBindingCredit').val('0');
+                    } else {
+                        var creditMM = $('#CreditMM').val();
+                        var creditYY = $('#CreditYY').val();
+                        var CreditID = $("#CreditID option:selected").val();
+                        var cardHolder = $('#CCHolderTemp').val();
+
+//                        if (CreditID > 0) {
+//                            //使用設定信用卡
+//                            $('#IsBindingCredit').val('1'); //是否使用[設用信用卡]
+//                            $('#SetBindingCredit').val('0'); //是否新增此張信用卡為[設用信用卡]
+//                        } else {
+//                            //自行輸入信用卡資料
+//                            //$('#IsBindingCredit').val('0');
+//                            var creditBinding = ($('#CreditBinding').is(':checked')) ? '1' : '0';
+//                            $('#SetBindingCredit').val(creditBinding);
+//                        }
+
+                        var creditBinding = ($('#CreditBinding').is(':checked')) ? '1' : '0';
+                        $('#SetBindingCredit').val(creditBinding);
+
+                        var setYear = '2019';
+                        var setMonth = parseInt('5');
+                        $('#CardHolder').val(cardHolder);
+
+//                        //無論綁定都要檢查持卡人姓名
+//                        if(1 != '0'){
+//                            if(cardHolder == ''){
+//                                $('#CardHolderErr').show();
+//                                LockSubmit(false);
+//                                return false;
+//                            }else if ($.trim($('#CCHolderTemp').val()) == '') {
+//                                $('#CardHolderErr').show();
+//                                LockSubmit(false);
+//                                return false;
+//                            }
+//                            else{
+//                                $('#CardHolderErr').hide();
+//                                $('#CardHolder').val(cardHolder);
+//                            }
+//                        }
+
+                        if ($("#CreditCardID").val() != '1') {
+                            var cardNoPart1 = $('#CCpart1').val();
+                            var cardNoPart2 = $('#CCpart2').val();
+                            var cardNoPart3 = $('#CCpart3').val();
+                            var cardNoPart4 = $('#CCpart4').val();
+                            var cardNum = cardNoPart1 + cardNoPart2 + cardNoPart3 + cardNoPart4;
+                            $('#CardNo').val(cardNum);
+                            var issuingBank = paymentUtility.CreditCard.GetGWIssuingBankFrom(cardNoPart1);
+
+                            var hideCName = '-1';
+
+                            if(cardHolder != hideCName && '0' == '1')
+                            {
+                                if (!regEx.test(cardHolder, regEx)) 
+                                {
+                                    $('.CardHolderTemp_error').hide();
+                                    $('.CardHolderTemp_OtherErr').fadeIn();
+                                    LockSubmit(false);
+                                    return false;
+                                }
+                            }
+
+                            if (isNaN(cardNum) || cardNum.length < 16) {
+                                alert("MasterCard/VISA/JCB信用卡的卡號格式有誤.");
+                                LockSubmit(false);
+                                return false;
+                            }
+
+                            var unionPayCnt = $("#disableUnionPay").val() == '1' ? 0 : '1';
+
+                            if( !paymentUtility.Check.CreditCard.IsSupportCreditCardType( issuingBank , unionPayCnt , cardType ) || 
+                                !paymentUtility.Check.CreditCard.IsAvailableIssuingBank( issuingBank , unionPayCnt ))
+                            {
+                                LockSubmit(false);
+                                return false;
+                            }
+
+                            //有效月年需判斷是否小於目前年份的當月
+                            var mmCheck = (creditMM.substring(0, 1) == '0') ? creditMM.substring(1, 2) : creditMM;
+
+                            if (parseInt('20' + creditYY) < setYear) {
+                                alert("信用卡[有效月年]期限錯誤！");
+                                LockSubmit(false);
+                                return false;
+                            }
+
+                            if (parseInt(mmCheck) < setMonth && parseInt('20' + creditYY) == setYear) {
+                                alert("信用卡[有效月年]期限錯誤！");
+                                LockSubmit(false);
+                                return false;
+                            }
+
+                            if (creditMM == '' || creditYY == '') {
+                                alert("請選擇[有效月年]的月/年");
+                                LockSubmit(false);
+                                return false;
+                            }
+
+                        }
+//                        else{
+//                            var id = $("#CreditID option:selected").val();
+//                            var cardNum = id.substr(id.length-6,6);
+//                            $('#CardNo').val(cardNum);                            
+//                        }
+                        
+                        if ($("#CreditCardID").val() != '1' || ($("#CreditCardID").val() == '1' && '0' == '0' && '1' == '0')) {
+                            var creditAuth = $('#CreditAuth').val();
+                            $('#CardAuthCode').val(creditAuth);
+
+                            if (isNaN(creditAuth) || creditAuth.length < 3) {
+                                alert("MasterCard/VISA/JCB信用卡的卡片背後末3碼格式有誤.");
+                                LockSubmit(false);
+                                return false;
+                            }
+                        }
+
+                        if ($('#merchantId').val() == '999990001' || $('#merchantId').val() == '1031095' || $('#merchantId').val() == '1036159' || $('#merchantId').val() == '1036161') {
+                            if (!confirm('信用卡交易將收取手續費' + '' + '%，確定要繼續嗎？')) {
+                                LockSubmit(false);
+                                return false;
+                            }
+                        }
+                    }
+
+                    //定期定額有效年月判斷
+                    if('False' == 'True')
+                    {
+                        var setYear = '2019';
+                        var setMonth = parseInt('5');
+                        //有效月年需判斷是否小於目前年份的當月
+                        var mmCheck = (creditMM.substring(0, 1) == '0') ? creditMM.substring(1, 2) : creditMM;
+                        /* 因應需求不驗有效期
+                        if (parseInt('20' + creditYY) < setYear) {
+                            alert("抱歉！定期定額扣款的每期，卡片都需為有效。\n請檢查您信用卡正面的有效期(VALID THRU)");
+                            LockSubmit(false);
+                            return false;
+                        }
+
+                        if (parseInt(mmCheck) < setMonth && parseInt('20' + creditYY) == setYear) {
+                            alert("抱歉！定期定額扣款的每期，卡片都需為有效。\n請檢查您信用卡正面的有效期(VALID THRU)");
+                            LockSubmit(false);
+                            return false;
+                        }
+                        */
+                    }
+
+                    var creditAuth = $('#CreditAuth').val();
+                    var cellPhone = $('.cellPhoneCheck').val();
+                    if (!cellPhone || cellPhone == '') cellPhone = '';
+
+                    //
+                    if('1' == '1' &&  (cardType != 'UnionPay' ))
+                    {
+                       var rtn = CheckIsOverSeasCard(cardNum);
+
+                       if(rtn == false) {
+                            LockSubmit(false);
+                            return false;
+                       }
+                       
+                    }
+                                        
+                    if($('#IsBindingCredit').val() == '0' && $('#SetBindingCredit').val() == '1' && 'False' == 'True'){                        
+                        var rtn = CheckIsBinding(cardNum);
+
+                       if(rtn == false) {
+                            return false;                       
+                            LockSubmit(false);
+                       }
+                    }
+
+                    //檢查手機號碼
+                    if ( '1' == '1') 
+                    {
+                        var s = $("#CellPhoneCheck").val().replace("+", "");
+                        var cellphone = s.substr(0, 2);
+                        var isChekcCellPhone = false;
+                        var hideCellPhone = '-1';
+                        
+                        if(hideCellPhone != $("#CellPhoneCheck").val())
+                        {
+                            if (cellphone == '09') {
+                                isChekcCellPhone = checkOnBlur('CellPhoneCheck', regExCellPhone);
+                            }                         
+                            else {
+                                isChekcCellPhone = checkOnBlur('CellPhoneCheck', regExOversea);
+                            }
+
+                            if(!isChekcCellPhone){
+                                LockSubmit(false);
+                                return false;
+                            }  
+                        }
+                    }
+                    
+                    //設定紅利
+                    var redeemVal = $('#radioRedeem').prop("checked") == true ? "1" : "0";
+                    $('#Redeem').val(redeemVal);
+
+                    // $('#ChoosePayment').val("CREDIT");  //信用卡分期
+
+                    $('#CellPhone').val(cellPhone);
+                    $('#CardValidMM').val(creditMM);
+                    $('#CardValidYY').val(creditYY);
+                    $('#CardAuthCode').val(creditAuth);
+
+                    if (redeemVal != 1) {
+                         $('#TradeInstmt').val(TradeInstmt);
+                         $('#InstallmentAmount').val(installmentAmount);
+                    } else {
+                         $('#TradeInstmt').val("");
+                         $('#InstallmentAmount').val("");
+                    }                    
+
+                    break;
+
+               case 'CreditPaySubmit_allPay': //信用卡                  
+
+//                    if(!confirm("您確定使用信用卡，支付此筆訂單金額(新台幣)：" + TradeAmount +  "元")){
+//                       LockSubmit(false);
+//                       return false;
+//                    }
+                    paymentName = '10000@2003@Credit_allPay';
+  
+                    break;
+
+                case 'GooglePaySubmit': //GooglePay             
+                    paymentName = '10000@2003@Credit_GooglePay';
+
+                    break;
+                case 'WebAtmPaySubmit': //網路ATM
+                    paymentName = $('input[name="webatmPayType"]:checked').val();
+
+                    if (typeof (paymentName) == "undefined") {
+                        alert("請選取WebATM銀行。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    alertContent += "綠界科技貼心提醒您，將跳轉至銀行頁面進行後續付款!\n\n"
+                    alertContent += "因網路ATM屬於即時交易，交易期間請『不要』重新整理網頁或回到上一頁，有可能導致交易失敗，\n"
+                    alertContent += "並請先確定\n"
+                    alertContent += "　　1. 讀卡機是否正確連接，驅動程式是否正確安裝？\n"
+                    alertContent += "　　2. 銀行提供的WEBATM 網頁ACTIVE X元件是否正確安裝？\n"
+                    alertContent += "　　　每間銀行提供元件安裝方式不同，請與您的發卡銀行確認。\n"
+                    alertContent += "以下過程中，若您因斷線、當機或其他任何因素導致交易未完成，我們不會收取您任何費用，屆時您只要重新購買即可。\n"
+
+                    alert(alertContent);
+                    break;
+                case 'AtmPaySubmit': //ATM及銀行臨櫃
+
+                    var atmType = $('#AtmType :selected').val();
+
+                    if (atmType == 'atm') {
+                        paymentName = $('input[name="atmPayType"]:checked').val();
+
+                        if (typeof (paymentName) == "undefined") {
+                            alert("請選取ATM銀行。");
+                            LockSubmit(false);
+                            return false;
+                        }
+
+                    } else {
+                        paymentName = $('input[name="counterPayType"]:checked').val();
+                        if (typeof (paymentName) == "undefined") {
+                            alert("請選取臨櫃銀行。");
+                            LockSubmit(false);
+                            return false;
+                        }
+                    }
+                    break;
+
+                case 'AccountLinkSubmit': //AccountLink
+
+                        $('#BankCode').val($("#eACHBankCode").val());
+                        paymentName = $('input[name="accountLinkPayType"]:checked').val();
+                        var formattedTradeAMT = $("#labFinalTradeTotalAMT").text();
+
+                        if (typeof (paymentName) == "undefined") {
+                            alert("請選取綁定支付銀行。");
+                            LockSubmit(false);
+                            return false;
+                        }
+                        if(!confirm("您確定使用銀行綁定支付，支付此筆訂單金額(新台幣)：" + formattedTradeAMT +  "元")){
+                            LockSubmit(false);
+                           return false;
+                        }
+                    break;
+
+                case 'BarcodePaySubmit': //超商條碼
+                    paymentName = $('input[name="barcodePayType"]').val();
+
+                    if ($('#merchantId').val() == '999990001') {
+                        if (!(currency.toUpperCase() == 'CNY' && oriTradeTotalAMT >= 500)) {
+                            if (!confirm('超商條碼需加收 '+0+' 元超商通路費，確定要繼續嗎？')) {
+                                LockSubmit(false);
+                                return false;
+                            }
+                        }
+                    } else if ($('#merchantId').val() == '1031095' || $('#merchantId').val() == '1036159' || $('#merchantId').val() == '1036161') {
+                        if (!confirm('超商條碼需加收 '+0+' 元超商通路費，確定要繼續嗎？')) {
+                            LockSubmit(false);
+                            return false;
+                        }
+                    }
+                    break;
+                case 'AppBarcodePaySubmit': //全家條碼立即儲
+
+                    //付款方式為全家條碼立即儲時，不得使用歐付寶帳戶
+                    if (balanceAmount > 0) {
+                        alert("綠界科技帳戶折抵與全家條碼立即儲不得同時使用.")
+                        LockSubmit(false);
+                        return false;
+                    }                 
+                    paymentName = $('input[name="appbarcodePayType"]').val();
+                    break;
+                case 'CvsPaySubmit': //超商代碼
+                    paymentName = $('input[name="cvsPayType"]:checked').val();
+
+                    if (typeof (paymentName) == "undefined") {
+                        alert("請選取超商代碼類別。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    if ($('#merchantId').val() == '999990001') {
+                        if (!(currency.toUpperCase() == 'CNY' && oriTradeTotalAMT >= 500)) {
+                            if (!confirm('超商代碼需加收 '+0+' 元超商通路費，確定要繼續嗎？')) {
+                                LockSubmit(false);
+                                return false;
+                            }
+                        }
+                    } else if ($('#merchantId').val() == '1031095' || $('#merchantId').val() == '1036159' || $('#merchantId').val() == '1036161') {
+                        if (!confirm('超商代碼需加收 '+0+' 元超商通路費，確定要繼續嗎？')) {
+                            LockSubmit(false);
+                            return false;
+                        }
+                    }
+
+                    //風險機制
+                    var checkCVSUpperLimit = ('0' == '1');
+                    var cVSUpperLimit = 0 ;
+                    if (checkCVSUpperLimit && tradeAmount > cVSUpperLimit ) {
+                        alert("超商代碼繳費金額受限於"+ cVSUpperLimit+"元，請重新檢視或變更付款金額");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    break;
+                
+
+
+                case 'LogisticsCvsPaySubmit':  //超商貨到付款      
+
+                    var storeMsg = $.trim($('#storeMsg').val());
+                    if (storeMsg == "") {
+                        alert("請選擇取貨超商。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    var cvsReceiverName = $.trim($('#cvsReceiverName').val());
+                    if (cvsReceiverName == "") {
+                        alert("請輸入取貨人姓名。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    var cvsReceiverCellPhone = $.trim($('#cvsReceiverCellPhone').val());
+                    if (cvsReceiverCellPhone == "") {
+                        alert("請輸入取貨人手機。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    var ckCVSAgree = $("input[id='ckCVSAgree'][type='checkbox']").attr('checked');
+                    if (!ckCVSAgree) {
+                        alert("請勾選 我已了解並同意【綠界科技股份有限公司 個資告知事項】");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    if ($("#cvsReceiverRemark").val() == "範例：請於上午到達，到達時請通知我或填寫您想和賣家特別說明的事")
+                        $("#Remark").val('');
+                    else
+                        $("#Remark").val($("#cvsReceiverRemark").val());
+
+                    $("#ReceiverName").val($("#cvsReceiverName").val());
+                    $("#ReceiverCellPhone").val($("#cvsReceiverCellPhone").val());
+
+                    paymentName = $("#CVSType").val();
+
+                    break;
+
+                case 'LogisticsHomePaySubmit':  //宅配貨到付款
+
+                    var homeReceiverName = $.trim($('#homeReceiverName').val());
+                    if (homeReceiverName == "") {
+                        alert("請輸入收件人姓名。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    var homeReceiverCellPhone = $.trim($('#homeReceiverCellPhone').val());
+                    if (homeReceiverCellPhone == "") {
+                        alert("請輸入收件人手機。");
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    if ($("#homeReceiverArea").val() == "0") {    //若居住地為台灣則無需驗證ZipCode
+                        if (zipCode == "") {
+                            alert("請輸入寄送地址");
+                            LockSubmit(false);
+                            return false;
+                        }
+                    }
+
+                    var zipCode = $("#ZipCode").val();
+                    var address = $("#Address").val();
+                    if (address == "") {
+                        alert("請輸入寄送地址")
+                        LockSubmit(false);
+                        return false;
+                    }
+
+                    var ckHomeAgree = $("input[id='ckHomeAgree'][type='checkbox']").attr('checked');
+                    if (!ckHomeAgree) {
+                        alert("請勾選 我已了解並同意【綠界科技股份有限公司 個資告知事項】")
+                        LockSubmit(false);
+                        return false;
+                    }
+
+
+                    if ($("#homeReceiverRemark").val() == "範例：請於上午到達，到達時請通知我或填寫您想和賣家特別說明的事")
+                        $("#Remark").val('');
+                    else
+                        $("#Remark").val($("#homeReceiverRemark").val());
+
+                    $("#ReceiverName").val($("#homeReceiverName").val());
+                    $("#ReceiverZipCode").val($("#ZipCode").val());
+                    $("#ReceiverAddress").val($("#Address").val());
+                    $("#ReceiverCellPhone").val($("#homeReceiverCellPhone").val());
+
+                    paymentName = $("#logisticsHomePayType").val();
+
+                    break;
+            }
+
+            $('#paymentName').val(paymentName);
+            $('#TradeTotalAMT').val(tradeAmount);
+            $('#ShoppingAMT').val(shoppingAmount);
+            $('#BalanceAMT').val(balanceAmount);
+           
+            //不顯示離開網頁的警告訊息.
+            $('#isSubmitting').val('1');
+
+            //判斷有否使用AI風管
+            var useCreditRiskControl = '0';
+
+            if (useCreditRiskControl == 1 && paymentName.indexOf("Credit") != -1) {
+
+                $.blockUI({ message: '<br/><br/><span class="A_GRAY18">即將進入[ 超智慧AI風險決策系統 ]<br /><img src="/Content/themes/WebStyle/images/Diamond.png" alt="wait"/><br/><img src="/Content/themes/WebStyle/images/time_0.gif" width="178" height="19" /><br/><span class="A_GRAY18">交易資料傳輸中…<br />請勿關閉視窗，以避免交易失敗！</span><br /><span class="A_GRAY161">Transaction data processing… DO NOT refresh or close the webpage.</span><span class="A_GRAY16"><br /><br/>' });
+                setTimeout(function () { $("#PayForm").submit(); }, 2000);
+
+            } else {
+
+                $.blockUI({ message: '<br/><br/><img src="/Content/themes/WebStyle/images/Diamond.png" alt="wait"/><br/><img src="/Content/themes/WebStyle/images/time_0.gif" width="178" height="19" /><br/><span class="A_GRAY18">交易資料傳輸中…<br />請勿關閉視窗，以避免交易失敗！</span><br /><span class="A_GRAY161">Transaction data processing… DO NOT refresh or close the webpage.</span><span class="A_GRAY16"><br /><br/>' });
+                setTimeout(function () { $("#PayForm").submit(); }, 1000);
+
+            }
+
+        });
+        // *** 縣市鄉鎮選出郵遞區號Start ***
+        $.getJSON("/BarcodeByPost/ListArea", null, function (data) {//取得GetArea資料
+            $("#area").empty(); //清空item
+            $("#area").append($("<option></option>").html("請選擇縣市")); //預設值
+            $("#city").append($("<option></option>").html("請選擇鄉鎮")); //預設值
+            $.each(data, function (i, itemvalue) {//循環加入item
+                $("#area").append(
+                    $("<option></option>").val(itemvalue.Value).html(itemvalue.Text))
+                //判斷是否第一次進入&是否為會員
+                var fristLogin = '';
+                var countyID = "";
+                if (countyID != "" && fristLogin == "") {
+                    $("#area").val(countyID).attr('selected', true);
+                    $("#area").trigger('change');
+                }
+            });
+        });
+
+        $("#area").change(function () {
+            var selValue = $("option:selected", this).val();
+            var url = "/BarcodeByPost/ListCity?areaID=" + selValue;
+
+            //判斷寄送地址是否同付款人資料，不同則取消「同付款人資料」勾選
+            var countyID = "";
+            if (countyID != $("#area").val()) {
+                $("#CheckPayment").attr("checked", false);
+            }
+
+            $.getJSON(url, null, function (data) {//取得GetCity資料
+                $("#ZipCode").val(""); //清空item
+                $("#Address").val(""); //清空item
+                $("#city").empty(); //清空item
+                $("#city").append($("<option></option>").html("請選擇鄉鎮")); //預設值
+                $.each(data, function (i, itemvalue) {
+                    $("#city").append(
+                        $("<option></option>").val(itemvalue.Value).html(itemvalue.Text))
+                });
+            });
+        });
+
+        $("#city").change(function () {
+            var selValue = $("option:selected", this).val();
+            var selArea = $("option:selected", $("#area")).text();
+            var selCity = $("option:selected", this).text();
+
+            //判斷寄送地址是否同付款人資料，不同則取消「同付款人資料」勾選
+            var townID = "";
+            if (townID != $("#city").val()) {
+                $("#CheckPayment").attr("checked", false);
+            }
+
+            $("#ZipCode").val(selValue == "請選擇鄉鎮" ? "" : selValue);
+            $("#Address").val(selArea + selCity)
+        });
+        // *** 縣市鄉鎮選出郵遞區號End ***
+
+        AddrressChange("0");
+
+        $("#homeReceiverArea").change(function () {
+            var residence = $(this).val();
+            AddrressChange(residence);
+        });
+
+
+        //### 購物金折抵
+        $('#useShoppingAMT').change(function () {
+            CheckShoppingAMT("check");
+        });
+        $('#ShoppingAmount').blur(function () {
+            if($(this).val() != '' && $(this).val() != '0'){
+                  $('#useShoppingAMT').prop('checked', true);      
+            }
+            else{
+                  $('#useShoppingAMT').prop('checked', false);                 
+            }
+           CheckShoppingAMT("check");
+        });
+
+        //### 歐付寶帳戶扣除
+        $("#useBalanceAMT").change(function () {
+            CheckBalanceAMT("check");
+        });
+        $('#BalanceAmount').blur(function () {
+
+            if($(this).val() != '' && $(this).val() != '0'){
+                  $('#useBalanceAMT').prop('checked', true);      
+            }
+            else{
+                  $('#useBalanceAMT').prop('checked', false);                 
+            }
+           CheckBalanceAMT("check");
+        });
+
+         //### 顯示信用卡分期金額
+//         $('.accordion').click(function () {                               
+//           if( $( this).hasClass("CreditPay") )  
+//           {                                             
+//              if($('#card_type  option:selected').val()!='UnionPay')
+//              {
+//                showCreditInstallment();        
+//               }
+//            }
+//            else
+//            {
+//                showTradeTotalAMT();
+//            }
+//          });        
+
+        var regEx = /^[\a-zA-Z\u4E00-\u9FA5\uF900-\uFA2D\s]+$/;
+        $('#CCHolderTemp').blur(function () {
+            var cardHolder = $('#CCHolderTemp').val();
+            if (cardHolder == '') {
+                $('.CardHolderTemp_OtherErr').hide();
+                $('.CardHolderTemp_error').fadeIn();
+                return;
+            }
+            if (cardHolder.length > 0) {
+                if (!regEx.test(cardHolder, regEx)) {
+                    $('.CardHolderTemp_error').hide();
+                    $('.CardHolderTemp_OtherErr').fadeIn();
+                    return;
+                }
+            }
+            $('.CardHolderTemp_error').hide();
+            $('.CardHolderTemp_OtherErr').hide();
+            limitText('CCHolderTemp', 50);
+        });
+
+        //更新付款方式上方的付款金額
+        RefreshTotalTradeAmount();
+
+        //當頁面 Reloading 的時候，要將購物金及歐付寶帳戶欄位回復預設值
+        $("#useShoppingAMT").prop("checked",false);
+        $("#ShoppingAmount").val("");
+        $("#useBalanceAMT").prop("checked",false);
+        $("#BalanceAmount").val("");
+
+        //Mantis4815:Stage付款選擇頁增加警語.
+        if (_isStage) {
+            //if (!$('#btnShowNext').length || $('#btnShowNext').css('display') == 'none') {    //先判斷是否有購物金/歐付寶帳戶折抵.
+                setTimeout(() => {
+alert('wyyyyyyyy您目前正在使用的是綠界科技的付款測試環境，請消費者勿進行相關的付款動作，以免影響權益！');
+                })
+            //}
+        }
+
+        $('.accordion').click(function () {
+            AccordionClickEvent(this);
+        });
+
+        if('0' == '1'){
+            $('#card_type').trigger('change');
+        }
+
+        $(window).bind('beforeunload',function () {
+            return '若您離開付款畫面，會導致交易中斷，需要重新操作，您要離開這個網站嗎?';
+        });
+        $(window).bind('submit',function () {
+            $(window).unbind('beforeunload');
+        });
+    });
+
+    var popUpObj; //Declare a global variable
+    function popUp(url) {
+        popUpObj = window.open(url, "Popup", "location=no" +
+            ",statusbar=no,menubar=no,resizable=0");
+        popUpObj.opener = self;
+        popUpObj.focus();
+    }
+    //Disable F5 key.
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 116) {
+            e.keyCode = 0;
+            //alert('請勿重新整理頁面，避免交易失敗');
+            if (e.preventDefault) e.preventDefault();
+            else e.returnValue = false;
+            return false;
+        }      
+    }
+//         function  showTradeTotalAMT(){
+//           $('.DivInstallmentAmount').css('display','none'); 
+//           $('.DivTradeTotalAMT').css('display','inline');   
+//     }
+ 
+//    function showCreditInstallment(){
+//        var  TradeTotalAMT = parseFloat('380');
+//        var  oriInstallmentAmount= parseFloat('0');            
+//        var  Installment=parseFloat('0');  
+//        var  stageInfoEN ='';
+//        var  stageInfoTW='';           
+//        var cardType = $('#card_type :selected').val();  
+//        var rdoInstallmentVal =$("#rdoInstallment").val();  //買家所選擇的分期數
+//       
+//        if(rdoInstallmentVal !=0){
+//            //必須有可以分期銀行才顯示                 
+//            if('0' > 0){
+//                if(oriInstallmentAmount>TradeTotalAMT){                                   
+//                    $('.DivInstallmentAmount').css('display','inline'); 
+//                    $('.DivTradeTotalAMT').css('display','none'); 
+//                    $('#TotalTradeAMT4').text(oriInstallmentAmount); 
+//                    alert('請注意，使用信用卡分期付款方式會有額外費率產生!! \n信用卡付款方式-總金額為＄'+oriInstallmentAmount.toString() +' 新台幣 (元)');
+//                } 
+//            }
+//            else
+//            {
+//                $('.DivInstallmentAmount').css('display','none'); 
+//                $('.DivTradeTotalAMT').css('display','inline'); 
+//            }  
+//        }
+//     }
+
+//     function switchInstallment(){
+//        var langType=  $('#langType').val( ); 
+//        var rdoInstallmentVal =$("#rdoInstallment").val(); 
+//        var  showYN="none";               
+//        if ( rdoInstallmentVal!=0 ){  showYN="inline";  } 
+//        if( langType=="lang-tw")
+//        { 
+//        $('#bank_text_tw').css("display",showYN);
+//        }         
+//        var cardType = $('#card_type :selected').val();
+
+//        if( cardType!='UnionPay' &&  rdoInstallmentVal!=0  )
+//        {
+//        showCreditInstallment();        
+//        }
+//        else
+//        {
+//        showTradeTotalAMT();
+//        }
+//    }
+
+                                                                                      
+    function callFamilyMap() {
+        document.domain = 'allpay.com.tw';
+        
+        var selectMerchant = $("#CVSType").val();
+        var IsB2C = 'true';
+        var logisticsType = "CVS";
+        var logisticsSubType = "";
+
+        if(selectMerchant.toUpperCase().indexOf("_FAMILY") != -1)
+        {            
+            if(IsB2C == "true"){
+                logisticsSubType = "FAMI";
+            }else{
+                logisticsSubType = "FAMIC2C";
+            }
+        }else if(selectMerchant.toUpperCase().indexOf("_UNIMART") != -1)
+        {
+            if(IsB2C == "true"){
+                logisticsSubType = "UNIMART";
+            }else{
+                logisticsSubType = "UNIMARTC2C";
+            }
+        }
+
+        var url = '' + '/express/map' + "?MerchantID=XXXXX&MerchantTradeNo=XXXXX&LogisticsType="+ logisticsType+"&LogisticsSubType="+logisticsSubType+"&IsCollection=Y&ClientReplyURL=http://&ExtraData=&CallBackFunction=ReceiveData";
+        popUp(url);
+        return false;              
+    }
+
+    function ReceiveData(object) {
+        //object = decodeURI(Object);
+        //document.domain = 'allpay.com.tw';
+        var aCookieValues = object.split('&');
+        var storeMsg = "";
+        for (var i = 0; i < aCookieValues.length; i++) {                        
+            var aCookieNameValuePairs = aCookieValues[i].split('=');
+            if (aCookieNameValuePairs[0] == "CVSStoreID" || aCookieNameValuePairs[0] == "CVSStoreName")
+                storeMsg += aCookieNameValuePairs[1];
+            $("#" + aCookieNameValuePairs[0]).val(aCookieNameValuePairs[1]);              
+            // Handle aCookieNameValuePairs[0] as the key
+            // Handle aCookieNameValuePairs[1] as the value
+        }
+        $("#storeMsg").val(storeMsg);
+    }
+
+    function AtmTypeChange() {
+        var atmType = $('#AtmType :selected').val();
+        if (atmType == 'atm') {
+            $('.Counter_Pay').hide();
+            $('#counter_note').hide();
+            $('.ATM_Pay').show();
+            $('#atm_note').show();
+            $('#counterMessage').hide();
+        } else {
+            $('.Counter_Pay').show();
+            $('#counter_note').show();
+            $('.ATM_Pay').hide();
+            $('#atm_note').hide();
+            $('#counterMessage').show();
+        }
+    }
+
+    //### 信用卡3D驗證
+    function GetCreditCardDetail() {
+        $('.dialog-Box').show();
+        $(".dialog-overlay").show();
+    }
+
+    function CloseCofrim() {
+        $('.dialog-Box').hide();
+        $(".dialog-overlay").hide();
+    }
+     
+    function AddrressChange(residence) {
+        if (residence == "0") {
+            $("#sp_tablerightbottom").show();
+            $("#sp_ZipCode").show();
+        } else {
+            $("#sp_tablerightbottom").hide();
+            $("#sp_ZipCode").hide();
+
+            $("#area").val("請選擇縣市");
+            $("#area").trigger('change');
+
+            var countyID = "";
+            if (countyID != $("#area").val()) {
+                $("#CheckPayment").attr("checked", false);
+            }
+        }
+    }
+    //### 千分位符號
+    function commafy(n) {
+        n += "";
+        var arr = n.split(".");
+        var re = /(\d{1,3})(?=(\d{3})+$)/g;
+        return arr[0].replace(re, "$1,") + (arr.length == 2 ? "." + arr[1] : "");
+    }
+
+    //### 判斷正整數/^[1-9]+[0-9]*]*$/
+    function IsNum(s)
+    {
+        var num = /^\d+$/;
+        return num.test(s);
+    }
+
+    //### 購物金檢查
+    function CheckShoppingAMT(execMethod) 
+    {
+        var TradeAmount = $('#TradeAmount').val();                  //### 訂單金額
+        var ShoppingAmount = $('#ShoppingAmount').val();            //### 購物金折抵金額
+        var shoppingCash = 0;                           //### 購物金餘額
+        var labshoppingAMT = "＄0";                                 //### 顯示的標籤
+        var labFinalTradeTotalAMT = commafy(TradeAmount);           //### 顯示的標籤
+        var blInt = true;                                           //### 是否為整數型態
+        var blResult = true;                                        //### 檢查結果，預設成功
+        var balanceAMT = 0;                                         //### 歐付寶帳戶
+
+        //判斷歐付寶帳戶是否已輸入
+        if($('#useBalanceAMT').prop('checked') && $('#BalanceAmount').val() != '') {
+            try
+            {
+                balanceAMT = parseInt($('#BalanceAmount').val(),10);
+            }
+            catch(err)
+            {
+                balanceAMT = 0;
+            }
+        }
+        
+        if ($("#useShoppingAMT").is(":checked")) {            
+            //### 檢查參數是否為數值(不含空白)，檢查有沒有此元素
+            if (isNaN(ShoppingAmount) || ShoppingAmount == undefined) {
+                blInt = false;
+            }
+            //### 折抵的購物金不是空白，不是正整數
+            if (ShoppingAmount != '' && IsNum(ShoppingAmount) == false) {
+                blInt = false;
+            }
+
+            if (blInt == false) {
+                alert("折抵的金額請輸入正整數");
+                blResult = false;
+            }
+            else {
+                //### 不是空白又是正整數
+                if (ShoppingAmount != '' && IsNum(ShoppingAmount) == true) {
+                    //### 轉數字型態
+                    TradeAmount = parseInt(TradeAmount, 10);
+                    ShoppingAmount = parseInt(ShoppingAmount, 10);
+
+                    //### 判斷購物金相關條件
+                    if ((TradeAmount - ShoppingAmount) < 30) {
+                        alert("超過本次購物金可折抵上限，請重新輸入。");
+                        blResult = false;
+                    }
+                    else if (TradeAmount / 2 < ShoppingAmount) {
+                        alert("超過本次購物金可折抵上限，請重新輸入。");
+                        blResult = false;
+                    }
+                    else if (shoppingCash < ShoppingAmount) {
+                        alert("超過本次購物金可折抵上限，請重新輸入。");
+                        blResult = false;
+                    }
+                    else if ((TradeAmount - balanceAMT - ShoppingAmount) < 0) {
+                        alert("超過本次購物金可折抵上限，請重新輸入。");
+                        blResult = false;
+                    }
+                }
+            }
+
+            if (blResult == false) {
+                $('#useShoppingAMT').attr('checked', false);
+                $('#ShoppingAmount').val("");
+            }
+            else {
+                //計算實際交易金額
+                if (ShoppingAmount == '') {
+                    ShoppingAmount = 0;
+                }
+
+                labshoppingAMT = "＄-" + commafy(ShoppingAmount);
+                labFinalTradeTotalAMT = commafy((TradeAmount - ShoppingAmount - balanceAMT));
+
+                if (execMethod == 'check') {
+                    alert("請注意！購物金折抵與儲值支付帳戶、信用卡、支付寶付款不得同時使用。")
+                }
+            }
+        }
+        else
+        {
+            $('#ShoppingAmount').val("");
+            labFinalTradeTotalAMT = commafy((TradeAmount - balanceAMT));
+        }
+            
+        $('#labshoppingAMT').html(labshoppingAMT);
+        $('#labFinalTradeTotalAMT').html(labFinalTradeTotalAMT);
+        
+        RefreshTotalTradeAmount();
+
+        if (blInt && blResult) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    //### 歐付寶帳戶檢查
+    function CheckBalanceAMT(execMethod) {
+        var TradeAmount = $('#TradeAmount').val();                  //### 訂單金額
+        var BalanceAmount = $('#BalanceAmount').val();              //### 歐付寶帳戶扣除金額
+        var balanceCash = 0;                          //### 歐付寶帳戶
+        var labbalanceAMT = "＄0";                                  //### 顯示的標籤
+        var labFinalTradeTotalAMT = commafy(TradeAmount);           //### 顯示的標籤
+        var blInt = true;                                           //### 是否為整數型態
+        var blResult = true;                                        //### 檢查結果，預設成功
+        var shoppingAMT = 0;                                        //### 購物金
+        var intFinalTradeTotalAMT = 0;                              //### 計算最後付款金額
+        
+        //判斷購物金是否已輸入
+        if($('#useShoppingAMT').prop('checked') && $('#ShoppingAmount').val() != '') {
+            try
+            {
+                shoppingAMT = parseInt($('#ShoppingAmount').val(),10);
+            }
+            catch(err)
+            {
+                shoppingAMT = 0;
+            }
+        }
+        
+        if ($("#useBalanceAMT").is(":checked")) {            
+            //### 檢查參數是否為數值(不含空白)，檢查有沒有此元素
+            if (isNaN(BalanceAmount) || BalanceAmount == undefined) {
+                blInt = false;
+            }
+            //### 折抵的購物金不是空白，不是正整數
+            if (BalanceAmount != '' && IsNum(BalanceAmount) == false) {
+                blInt = false;
+            }
+
+            if (blInt == false) {
+                alert("扣除的金額請輸入正整數");
+                blResult = false;
+            }
+            else {
+                //### 不是空白又是正整數
+                if (BalanceAmount != '' && IsNum(BalanceAmount) == true) {
+                    //### 轉數字型態
+                    TradeAmount = parseInt(TradeAmount, 10);
+                    BalanceAmount = parseInt(BalanceAmount, 10);
+
+                    //### 判斷歐付寶相關條件
+                    if ((TradeAmount - BalanceAmount - shoppingAMT) < 0) {
+                        alert("超過本次餘額可扣除上限，請重新輸入。");
+                        blResult = false;
+                    }
+                }
+            }
+
+            if (blResult == false) {
+                $('#useBalanceAMT').attr('checked', false);
+                $('#BalanceAmount').val("");
+            }
+            else {
+                //計算實際交易金額
+                if (BalanceAmount == '') {
+                    BalanceAmount = 0;
+                }
+
+                labbalanceAMT = "＄-" + commafy(BalanceAmount);
+                intFinalTradeTotalAMT = TradeAmount - BalanceAmount - shoppingAMT;
+
+                if (execMethod == 'check' && BalanceAmount != TradeAmount) {
+                    alert("請注意！綠界科技帳戶折抵與儲值支付帳戶、信用卡、支付寶付款不得同時使用。")
+                }
+            }
+        }
+        else
+        {
+            $('#BalanceAmount').val("");
+            intFinalTradeTotalAMT = TradeAmount - shoppingAMT;
+        }
+            
+        //計算超商手續費
+        if(SelectedPay == 'nav-section6' && '0' == 1)
+        {
+            intFinalTradeTotalAMT = intFinalTradeTotalAMT + 0;
+        }
+        else if(SelectedPay == 'nav-section7' && '0' == 1)
+        {
+            intFinalTradeTotalAMT = intFinalTradeTotalAMT + 0;
+        }
+        labFinalTradeTotalAMT = commafy(intFinalTradeTotalAMT);
+
+        $('#labbalanceAMT').html(labbalanceAMT);
+        $('#labFinalTradeTotalAMT').html(labFinalTradeTotalAMT);
+        
+        RefreshTotalTradeAmount();
+
+        if (blInt && blResult) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    function openwindow(url,name,iWidth,iHeight)
+    {
+      var url;     //網頁位置;
+      var name;    //網頁名稱;
+      var iWidth;  //視窗的寬度;
+      var iHeight; //視窗的高度;
+      var iTop = (window.screen.availHeight-30-iHeight)/2;  //視窗的垂直位置;
+      var iLeft = (window.screen.availWidth-10-iWidth)/2;   //視窗的水平位置;
+      window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',status=no,location=no,status=no,menubar=no,toolbar=no,resizable=yes,scrollbars=no');
+    }
+
+
+    function  switchLang(){
+         var   langType=  $('#langType').val( );         
+         if( langType=="lang-tw"){
+             $('#langType').val("lang-en" );
+             $('.lang-tw').css("display", "none");      
+             $('.lang-en').css("display", "inline");   
+         }
+         else
+         {
+            $('#langType').val("lang-tw" );
+            $('.lang-tw').css("display", "inline");      
+            $('.lang-en').css("display", "none");      
+         }         
+    }
+
+
+    function CheckIsOverSeasCard(cardNum)
+    {              
+        var defaultCard6 = '******';
+        // 避免記憶卡號時無值, 沒辦法判斷國外卡 (預計卡號存在, 非記憶會變成****, 跟清除卡號顯示時)
+        if((defaultCard6.length == 6) && ($("#CreditCardChange").is(":visible")))
+        {
+            cardNum = defaultCard6;
+        }
+
+        var rtn = true;
+        $.ajax({
+            url: '/AioPaymentRule/CheckIsOverSeasCard', type: "POST", dataType: "json",
+            data: {"CardNo":cardNum },
+            async: false,
+            success: function (data) {                               
+            if(data.RtnCode == "1")
+            {  
+                alert("本公司不接受國外信用卡交易，請重新輸入非國外卡的信用卡卡號。");
+                rtn =  false;                                   
+            }
+            }
+        });
+        return rtn;
+    }
+
+    //長度限制
+    function limitText(id, limit) {
+        var c = 0;
+        k = $('#' + id).val();
+        var isChinese = false;
+        for (i = 0; i < k.length; i++) {
+            if (k.charCodeAt(i) > 999) { //輸入值為中文字時
+                c += 2;
+                isChinese = true;
+            } else {
+                c++;
+            }
+        };
+        var cutLimit = (isChinese) ? 25 : 50;
+        $('#' + id).val(k.substring(0, cutLimit));
+    }
+
+    function CheckIsBinding(cardNum)
+    {              
+        var rtn = true;
+
+        $.ajax({
+            url: '/AioPaymentRule/CheckIsBinding', type: "POST", dataType: "json",
+            data: {"CardNo":cardNum },
+            async: false,
+            success: function (data) {                               
+                if(data.RtnCode != "1")
+                {  
+                    alert(data.RtnMsg);
+                    rtn =  false;                                   
+                }
+            }
+        });
+
+        return rtn;
+    }
+
+    //ATM、臨櫃繳款及WebATM點選「郵局或非上述銀行」時的提示訊息
+    function DisplayAlertMessage() {
+        alert("提醒您！若您使用其他金融機構進行轉帳，可至任一銀行之櫃員機操作，另須支付跨行手續費 15 元。");
+    }
+
+    //更新付款方式上方的付款金額
+    function RefreshTotalTradeAmount() {
+        var formattedTradeAMT = $("#labFinalTradeTotalAMT").text();
+
+        $("span[id^='TotalTradeAMT']").each(function() {
+            $(this).text(formattedTradeAMT);
+        });
+
+        //顯示分期金額
+//        var rdoInstallmentVal =$("#rdoInstallment").val();  //買家所選擇的分期數
+//        var stageInfoTW=''; 
+//        var Installment=parseFloat('0');
+//        var oriInstallmentAmount= parseFloat('0');
+//        var TradeTotalAMT = parseFloat('380');
+
+//        if(rdoInstallmentVal !=0){
+//            //必須有可以分期銀行才顯示       
+//            if('0' > 0){
+//                if(oriInstallmentAmount>TradeTotalAMT){
+//                    $('#TotalTradeAMT4').text(oriInstallmentAmount); 
+//                } 
+//            } 
+//        }
+    }
+
+    function LockSubmit(isLock){
+        $('.readySubmit').prop('disabled', isLock);
+    }
+
+    function checkOnBlur(propID, regEx) {
+        //先移除欄位的外框線
+        $('#' + propID).removeClass('hit');
+        $('#' + propID).removeClass('error');
+
+        var reg = regEx;
+        var checkVal = $('#' + propID).val();
+
+        var prop_focus = propID + '_focus';
+        var prop_empty = propID + '_empty';
+        var prop_err = propID + '_error';
+        var prop_OtherErr = propID + '_OtherErr';
+
+        $('.' + prop_OtherErr).hide();
+
+        //欄位為空值
+        if ($('#' + propID).val() == '') {
+            $('.' + prop_focus).hide();
+            $('.' + prop_err).hide();
+            $('.' + prop_empty).fadeIn();
+            $('#' + propID).addClass('error');
+            return false;
+            //欄位格式不正確
+        }
+
+        if (reg == null) {
+            $('.' + prop_focus).hide();
+            $('.' + prop_empty).hide();
+            $('.' + prop_err).hide();
+            $('#' + propID).removeClass('error');
+            return true;
+        }            
+
+        if (propID == 'CellPhoneCheck') {
+            checkVal = $("#CellPhoneCheck").val().replace("+", "");
+        }
+
+        if (!reg.test(checkVal, reg)) {
+            $('.' + prop_focus).hide();
+            $('.' + prop_empty).hide();
+            $('.' + prop_err).fadeIn();
+            $('#' + propID).addClass('error');
+            return false;
+            //欄位格式正確
+        } else if (reg.test(checkVal, reg)) {
+            $('.' + prop_focus).hide();
+            $('.' + prop_empty).hide();
+            $('.' + prop_err).hide();
+            $('#' + propID).removeClass('error');
+            return true;
+        }
+    }
+
+    function checkOnFocus(propID) {
+        $('#' + propID).removeClass('error');
+        $('#' + propID).addClass('hit');
+
+        //未輸入值時，出現提示文字
+        var prop_focus = propID + '_focus';
+        var prop_empty = propID + '_empty';
+        var prop_err = propID + '_error';
+        var prop_OtherErr = propID + '_OtherErr';
+
+        $('.' + prop_OtherErr).hide();
+        $('.' + prop_empty).hide();
+        $('.' + prop_err).hide();
+        $('.' + prop_focus).fadeIn();
+    }
+    function ShowPopup(id) {
+        $('#' + id).show();
+        $(".dialog-overlay").show();
+    }
+    function ClosePopup() {
+        $('.dialog-Box').hide();
+        $(".dialog-overlay").hide();
+    }
+
+
+    function AccordionClickEvent(obj) {
+        $("#chooseCVSbarcode").css("display","none");
+            $("#chooseCVScode").css("display","none");
+
+
+            SelectedPay = $(obj)[0].id;
+
+            CheckShoppingAMT("submit");
+            CheckBalanceAMT("submit");
+
+            //按下超商條碼付款時 確認是否選擇訂單金額外加手續費 須顯示相關欄位
+            if($(obj).hasClass("BarcodePay") && '0' == 1)  
+            {                                                            
+                $("#chooseCVSbarcode").css("display","block");
+                $("#FinalTradeTotalul").css("border-top","none");
+            }
+            else if($(obj).hasClass("CvsPay") && '0' == 1)  
+            {   
+                //按下超商代碼付款時 確認是否選擇訂單金額外加手續費 須顯示相關欄位
+                $("#chooseCVScode").css("display","block");
+                $("#FinalTradeTotalul").css("border-top","none");
+            }
+            else{
+                $("#FinalTradeTotalul").css("border-top","1px solid #CCC");
+            }
+    }
+</script>
+<script type="text/javascript">
+    ///GooglePay
+    var pEnvironment = 'TEST';
+    var canMakeGooglePayment = true;
+    var useChrome = true;
+    var pDetails = {
+        displayItems: [{
+            label: '訂單金額',
+            amount: { currency: 'TWD', value: '380' }
+        }],
+        total: {
+            label: '總計',
+            amount: { currency: 'TWD', value: '380' }
+        }
+    };
+    $(function () {
+        $('#btnSubmitGooglePay').click(function () {
+            if (canMakeGooglePayment) {
+                onBuyClicked();
+            } else {
+                if (!useChrome) {
+                    alert("抱歉，您的瀏覽器不支援GooglePay付款!");
+                } else {
+                    alert("請使用Google Pay綁定信用卡");
+                }
+                return false;
+            }
+        });
+    });
+</script>
+    <script type="text/javascript" src="https://payments.developers.google.com/js/apis/pay.js"></script>
+    <script type="text/javascript" src="/Scripts/Google/Payment_1.0.0.js"></script>
+<style> 
+ul.store li.sevenStop span{ background-image:url(../Content/themes/WebStyle201401/images/storeStop.png); background-position:0 0; background-repeat:no-repeat; width:130px; height:50px;}
+
+.nav { display:block; }
+</style>
+<div style="display: none">
+    <img src="/Content/themes/WebStyle/images/Diamond.png" alt="wait"/>
+    <img src="/Content/themes/WebStyle/images/time_0.gif" alt="" width="178" height="19" />
+    <br />
+</div>
+<div id="fb-root">
+</div>
+<!--[if lt IE 8]
+  <div id="ie-tip">
+    <div class="tip-wrapper">
+      <div class="declare">
+        <p>
+          目前已不支援
+          <span>
+            IE7 以下
+          </span>
+          的瀏覽器版本，需要更好的瀏覽體驗可下載：
+          <a href="http://www.google.com/intl/zh-TW/chrome/" target="_blank" title="來去下載 Google 瀏覽器">
+            Google Chrome 瀏覽器
+          </a>，
+          <a href="http://moztw.org/firefox/" target="_blank" title="來去下載 Firefox 瀏覽器">
+            Firefox 瀏覽器
+          </a>，
+          <a href="http://www.apple.com/tw/safari/" target="_blank" title="來去下載 Safari 瀏覽器">
+            Safari 瀏覽器
+          </a>，
+          <a href="http://www.microsoft.com/zh-tw/download/internet-explorer-8-details.aspx" target="_blank" title="來去下載 IE8 以上的瀏覽器">
+          IE8 以上的瀏覽器
+          </a>
+        </p>
+      </div>
+      <div class="decision">
+        <form action="">
+          <p>
+            不要再顯示訊息囉!
+          </p>
+          <input class="button" name="dont-alert" type="button" value="我知道了">
+        </form>
+      </div>
+    </div>
+  </div>
+<![endif]-->
+<!-- InstanceBeginEditable name="main" -->
+<div class="main part">
+    <div class="container">
+        <div class="pay_content payment_content">
+            <input type="hidden" id="disableUnionPay" value="0" />
+            <input type="hidden" id="warnSubmitPay" value="" />
+            <input type="hidden" id="langType" name="langType" />
+            <input type="hidden" id="isSubmitting" name="isSubmitting" value="0" />
+            <div class="showcase">
+                    <img src="https://payment-stage.ecpay.com.tw/Content/images/showcase.png?t=20190508063759" width="1000" height="200" alt="綠界科技ECPay" />
+                <div class="label">
+                </div>
+            </div>
+            <!-- End:showcase -->
+            <div class="box card">
+                <h2>
+                    訂單資訊
+                </h2>
+                <div class="card_inner">
+                    <div style="width: 95%;">
+                        <p class="blue right">
+                            單位：新台幣 (元)</p>
+                    </div>
+                    <ul class="hd">
+                        <li class="tab1fix" style="color: #227BBB;">訂單編號 </li>
+                        <li class="tab2fix" style="color: #227BBB;">商店名稱</li>
+                        <li class="tab3fix" style="color: #227BBB;">商品明細 </li>
+                        <li class="tab4fix" style="color: #227BBB;">總計</li>
+                    </ul>
+                    <ul class="last">
+                        <input id="TradeAmount" name="TradeAmount" type="hidden" value="380" />
+                            <li class="tab1fix">XXXXX</li>
+                            <li class="tab2fix">綠界STAGE測試股...</li>
+                            <li class="tab3fix">
+XXXXX x 1                            </li>
+                            <li class="tab4fix" id="Amount">
+                                <div class="DivInstallmentAmount" style="display: none">
+                                    ＄0
+                                </div>
+                                <div class="DivTradeTotalAMT">
+                                    ＄380
+                                </div>
+                            </li>
+                    </ul>
+                    <div style="display: none;" id="chooseCVSbarcode">
+                        <ul>
+                            <li class="tab1"></li>
+                            <li class="tab1"></li>
+                            <li class="tab1" style="color: #f05555; padding-bottom: 0px;">超商條碼手續費</li>
+                            <li class="tab2" style="color: #f05555; padding-bottom: 0px;">＄0</li>
+                        </ul>
+                    </div>
+                    <div style="display: none;" id="chooseCVScode">
+                        <ul>
+                            <li class="tab1"></li>
+                            <li class="tab1"></li>
+                            <li class="tab1" style="color: #f05555; padding-bottom: 0px;">超商代碼手續費</li>
+                            <li class="tab2" style="color: #f05555; padding-bottom: 0px;">＄0</li>
+                        </ul>
+                    </div>
+                    <ul id="FinalTradeTotalul" class="last">
+                        <li class="tab5"><span class="red">請務必於訂單資訊下方選擇付款方式，以完成交易</span></li>
+                        <li class="tab1" style="color: #227BBB;">本筆訂單需付款金額</li>
+                        <li class="tab2 check" style="color: #ff0000;">＄<span id="labFinalTradeTotalAMT"
+                            class="DivTradeTotalAMT" style="vertical-align: baseline;">380</span>
+                            <span id="labFinalInstallmentAMT" class="DivInstallmentAmount" style="vertical-align: baseline;
+                                display: none;">0</span>
+                        </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <!-- End:card -->
+            <div class="content boder">
+                <div class="option">
+                        <div class="pay allpay GooglePayNotsupport" style="display: none;">
+                            <div>
+                                <h2 style="color: Red;">
+                                    抱歉，您的瀏覽器不支援GooglePay付款!</h2>
+                            </div>
+                        </div>
+                        <div class="pay allpay">
+                            <div class="titol">
+                                <h2>
+                                    付款方式</h2>
+                            </div>
+                            <!-- Start:GooglePay -->
+                                <div class="accordion GooglePay accordion-close" id="nav-section15" style="height: 20px;
+                                    display: none;">
+                                    <p>
+                                        Google Pay</p>
+                                    <div class="card">
+                                        <img class="inline-block" style="margin:-30px 0 0 130px; vertical-align: middle;" src="/Content/themes/GooglePay/images/gplogo.svg" width="45" height="40">
+                                    </div>
+                                    <span></span>
+                                </div>
+                                <div class="nav-section-inner GooglePay" style="display: none;">
+                                    <h3>
+                                        本筆訂單需付款金額 $<span id="TotalTradeAMT15" style="color: #ff0000;"></span>。</h3>
+                                    <div class="sumbit">
+                                        
+                                        <input type="hidden" name="GooglePayType" value="10000@2003@Credit_GooglePay" />
+                                        <a class="btn blue_button" id="btnSubmitGooglePay">確認送出</a> <a class="readySubmit"
+                                            style="display: none;" id="GooglePaySubmit"></a>
+                                    </div>
+                                </div>
+                            <!-- End:GooglePay -->
+                                <div class="accordion CreditPay accordion-close" id="nav-section3">
+                                    <p>
+                                        信用卡</p>
+                                    <div class="card">
+                                        <ul>
+                                            <li class="visa">VISA</li>
+                                            <li class="mc">MasterCard</li>
+                                            <li class="jcb">JCB</li>
+                                                                                                                                        <li class="up">銀聯卡</li>
+                                        </ul>
+                                    </div>
+                                    <span></span>
+                                </div>
+                                <div class="nav-section-inner" id="CreditPayDetail">
+                                    <h3>
+                                        本筆訂單需付款金額 $<span id="TotalTradeAMT4" style="color: #ff0000;"></span>。
+                                    </h3>
+                                        <div class="logBox" style="display: none">
+                                            <p>
+                                                <span class="red">※</span>登入綠界科技帳號付款，即享有累積紅利回饋！</p>
+                                            <div class="lo">
+                                                <a class="left btn blue_button loginForm" id="CreditPayBeforeLogin">會員登入</a><a class="left btn blue_button loginForm"
+                                                    id="CreditPayBeforeLogin">免費註冊</a>
+                                            </div>
+                                        </div>
+                                    <div class="card_info">
+                                        <ul>
+                                                                                        <li class="noUnionPay">
+                                                    <input type="hidden" id="CreditID" name="CreditID" value="0" />
+                                            </li>
+                                                <li><span class="subject"><span class="icon">＊</span><label>信用卡類型</label></span>
+                                                    <select id="card_type" name="card_type" style="width: 150px;">
+                                                            <option value="Visa/Master/JCB">Visa/Master/JCB</option>
+                                                        <option value="UnionPay">銀聯卡</option>
+                                                    </select>
+                                                    <p class="unionPayNotes red margin_l190" style="display:none;">
+                                                         銀聯卡僅支援一次付清付款。</p>
+                                                </li>
+                                                                                            <li class="noUnionPay"><span class="subject"><span class="icon">＊</span><label>持卡人</label></span>
+                                                    <input id="CCHolderTemp" name="CCHolderTemp" type="text" placeholder="請輸入持卡人姓名"
+                                                        style="width: 190px;" maxlength="50" class="EditCreditInfo" value="" />
+                                                    <div id="CardHolderErr" class="input_box CardHolderTemp_error" style="display: none">
+                                                        <div class="input_error">
+                                                            <div class="input_arrow_r">
+                                                            </div>
+                                                            請輸入本人姓名。</div>
+                                                    </div>
+                                                    <div id="CardHolderSplitErr" class="input_box CardHolderTemp_OtherErr" style="display: none">
+                                                        <div class="input_error">
+                                                            <div class="input_arrow_r">
+                                                            </div>
+                                                            不可輸入數字及符號。</div>
+                                                    </div>
+                                                </li>               
+                                            <li class="noUnionPay"><span class="subject"><span class="icon">＊</span><label>信用卡號</label></span>
+                                                <input id="CCpart1" name="CCpart1" type="tel" value="" style="width: 30px;" maxlength="4"
+                                                    class="card_number creditNum EditCreditInfo" autocomplete="off" /><span class="EditCreditInfo">&ndash;</span>
+                                                <input id="CCpart2" name="CCpart2" type="tel" value="" style="width: 30px;" maxlength="4"
+                                                    class="card_number creditNum EditCreditInfo" autocomplete="off" /><span class="EditCreditInfo">&ndash;</span>
+                                                <input id="CCpart3" name="CCpart3" type="tel" value="" style="width: 30px;" maxlength="4"
+                                                    class="card_number creditNum EditCreditInfo" autocomplete="off" /><span class="EditCreditInfo">&ndash;</span>
+                                                <input id="CCpart4" name="CCpart4" type="tel" value="" style="width: 35px;" maxlength="4"
+                                                    class="card_number creditNum EditCreditInfo" autocomplete="off" />
+                                                <img id="visa" class="picCreadit visa_logo" src="/Content/themes/WebStyle201404/images/seller_pay/visa.png" style="display:none; vertical-align:middle;" />
+                                                <img id="master" class="picCreadit master_logo" src="/Content/themes/WebStyle201404/images/seller_pay/master.png" style="display:none; vertical-align:middle;" />
+                                                <img id="jbc" class="picCreadit jcb_logo" src="/Content/themes/WebStyle201404/images/seller_pay/jcb.png" style="display:none; vertical-align:middle;" />
+                                                <span id="showBankName" style="font-size: 12px; color: #227BBB; vertical-align: baseline;">
+                                                </span><span style="margin-left: 10px;" class="UnEditCreditInfo">末四碼****</span>
+                                                <span id="CreditCardChange" class="UnEditCreditInfo" style="cursor: pointer; color: #227BBB;
+                                                    text-decoration: underline;">變更卡號</span> <span id="CreditCardDelete" class="UnEditCreditInfo"
+                                                        style="cursor: pointer; color: #227BBB; text-decoration: underline; margin-left: 10px;">
+                                                        清除資料</span>
+                                                    <p class="red margin_l190">
+                                                        本公司不接受國外信用卡交易。</p>
+                                                                                            </li>
+                                            <li class="noUnionPay EditCreditInfo"><span class="subject"><span class="icon ic1">＊</span><label>信用卡有效月年</label></span>
+                                                <select id="CreditMM" name="CreditMM" class="chzn-select creditNum" style="width: 80px;">
+                                                    <option value="">請選擇</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                </select>
+                                                月
+                                                <select id="CreditYY" name="CreditYY" class="chzn-select" style="width: 80px;">
+                                                    <option value="">請選擇</option>
+                                                        <option value="19">2019</option>
+                                                        <option value="20">2020</option>
+                                                        <option value="21">2021</option>
+                                                        <option value="22">2022</option>
+                                                        <option value="23">2023</option>
+                                                        <option value="24">2024</option>
+                                                        <option value="25">2025</option>
+                                                        <option value="26">2026</option>
+                                                        <option value="27">2027</option>
+                                                        <option value="28">2028</option>
+                                                        <option value="29">2029</option>
+                                                        <option value="30">2030</option>
+                                                        <option value="31">2031</option>
+                                                        <option value="32">2032</option>
+                                                        <option value="33">2033</option>
+                                                        <option value="34">2034</option>
+                                                        <option value="35">2035</option>
+                                                        <option value="36">2036</option>
+                                                        <option value="37">2037</option>
+                                                        <option value="38">2038</option>
+                                                        <option value="39">2039</option>
+                                                </select>
+                                                年 </li>
+                                            <li class="special noUnionPay EditCreditInfo" style="height: 65px;" id="Cardcvv"><span
+                                                class="subject"><span class="icon ic1">＊</span><label>信用卡背面末三碼</label></span>
+                                                <div class="vvcBox">
+                                                    <input id="CreditAuth" name="CreditAuth" type="tel" value="" style="width: 50px;
+                                                        float: left" maxlength="3" autocomplete="off" />
+                                                    <div class="cvvb">
+                                                        <img src="/Content/themes/WebStyle201401/images/ccvb.png" width="70px;"></div>
+                                                </div>
+                                                <span class="red mleft margin_l190">(此欄位為驗證之需，綠界科技不予以記錄)</span> </li>
+                                                <li id="divCellPhone" class="noUnionPay"><span class="subject"><span class="icon ic1">
+                                                    ＊</span><label>手機號碼：</label></span>
+                                                    <input type="tel" id="CellPhoneCheck" name="CellPhoneCheck" class="cellPhoneCheck EditCreditInfo" maxlength="15" style="width:190px;" value="" />
+                                                    <span id="divUnEditCellPhone" style="margin-left: 10px;" class="UnEditCreditInfo"></span>
+                                                    <!-- Infomation Message -->
+                                                    <div class="input_box hit CellPhoneCheck_focus" style="display: none;">
+                                                        <div class="input_info">
+                                                            <div class="input_arrow_b">
+                                                            </div>
+                                                                (使用台灣發行的信用卡時，系統將發送驗證碼；<br />使用非台灣發行的信用卡，手機號碼僅供備查。)
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- 輸入錯誤訊息 -->
+                                                    <div class="input_box error error_box CellPhoneCheck_OtherErr" style="display: none;">
+                                                    </div>
+                                                    <div class="input_box CellPhoneCheck_empty" style="display: none">
+                                                        <div class="input_error">
+                                                            <div class="input_arrow_r">
+                                                            </div>
+                                                            請輸入手機號碼。</div>
+                                                    </div>
+                                                    <div class="input_box CellPhoneCheck_error" style="display: none">
+                                                        <div class="input_error">
+                                                            <div class="input_arrow_r">
+                                                            </div>
+                                                            手機號碼格式輸入錯誤。</div>
+                                                    </div>
+                                                    <div style="color: Red;" class="EditCreditInfo">
+                                                        <span class="subject"></span>
+                                                                (如非台灣手機號碼請加國碼，如香港為852，則輸入852123456789。)
+
+
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                        <input type="hidden" name="creditPayType" value="10000@2003@Credit_GW" />
+                                        <input type="hidden" name="creditInstallmentPayType" value="10023@1@Credit_CreditInstallment" />
+                                        <br />
+                                                                                <div class="sumbit">
+                                            <a class="btn blue_button readySubmit" id="CreditPaySubmit" logintype="CreditPayBeforeLogin">
+                                                確認送出</a></div>
+                                    </div>
+                                    <div class="note">
+                                        <h4>
+                                            注意事項 ：</h4>
+                                        <ul>
+                                            <li>請確認您的訂單資料正確，再輸入您的信用卡資訊。</li>
+                                            <li>本頁面已使用 256-bit SSL 安全加密機制。</li>
+                                            <li>為確保網路交易安全，您同意本公司得就此筆交易向發卡銀行、收單銀行及持卡人核對是否屬實。</li>
+                                            <li>若您同意以上約定付款程序，請按「送出」以完成本次交易。</li>
+                                            <li>本次信用卡交易採用綠界科技金流機制進行付款，信用卡交易之特約商店為綠界科技股份有限公司。</li>
+                                            <li>非經持卡人同意，如有冒用他人卡片盜刷之行為，刑法最高判五年有期徒刑。</li>
+                                            <li>信用卡成功交易之否認，如經判定為本人或授權刷卡的行為，相關損失、費用須自行負擔。</li>
+                                        </ul>
+                                    </div>
+                                </div>                          
+                                <!-- End:信用卡 -->
+                                                        <!-- End:網路ATM -->
+                            <!-- End:ATM 櫃員機/銀行臨櫃繳款 -->
+                            <!-- End:超商條碼 -->
+                                                        <!-- End:全家條碼立即儲 -->
+                                                    </div>
+                </div>
+                <!-- End:option -->
+                <!-- End:sidebar -->
+            </div>
+            <!-- End:content -->
+        </div>
+        <!-- End:pay_content -->
+    </div>
+</div>
+<div class="dialog-overlay" style="display: none">
+</div>
+<!--信用卡3D驗證說明跳出視窗，請勿忽略-->
+
+<form action="/Cashier/AioLoginUserConfirm" id="LoginForm" method="get">    <input type="hidden" name="timeStamp" value="1557268678" />
+    <input type="hidden" name="merchantId" value="XXXXX" />
+    <input type="hidden" name="merchantTradeNo" value="XXXXX" />
+    <input type="hidden" name="tradeType" value="aio" />
+    <input type="hidden" name="mid" value="73cdcf780bcfb473e9078278d570c012" />
+    <input type="hidden" name="allPayTradeID" value="1099205" />
+    <input type="hidden" name="macValue" value="cfc0c22fbacc9beccf321ac5f3cc9f6d" />
+    <input type="hidden" name="ChoosePayment" value="Credit" />
+    <input type="hidden" name="ChooseSubPayment" />
+    <input type="hidden" name="PayerName" />
+    <input type="hidden" name="PayerCellPhone" />
+    <input type="hidden" name="toLoginYN" value="Y" />
+    <input type="hidden" name="QuickPayID" />
+    <input type="hidden" name="isChoosePayBeforeLogin" id="isChoosePayBeforeLogin" />
+    <input type="hidden" name="CellPhone" /> 
+    <input type="hidden" name="QuickPayMID" value="0" />
+    <input type="hidden" name="IgnorePayment" />
+    <input type="hidden" name="UseShoppingCash" value="1" />
+    <input type="hidden" name="SelectTradeTypeLogin" id="SelectTradeTypeLogin" />
+</form><form action="/Cashier/RetainPaymentType" id="PayForm" method="post">    <input type="hidden" name="timeStamp" value="1557268678" />
+    <input type="hidden" name="merchantId" id="merchantId" value="XXXXX" />
+    <input type="hidden" name="merchantTradeNo" value="XXXXX" />
+    <input type="hidden" name="tradeType" value="aio" />
+    <input type="hidden" name="mid" value="73cdcf780bcfb473e9078278d570c012" />
+    <input type="hidden" name="allPayTradeID" value="1099205" />
+    <input type="hidden" name="macValue" value="7d35c4cf8a5eba799d7da6646fa21c78" />
+    <input type="hidden" name="PayerName" />
+    <input type="hidden" name="PayerCellPhone" />
+    <input type="hidden" name="IsBindingCredit" id="IsBindingCredit" />
+    <input type="hidden" name="SetBindingCredit" id="SetBindingCredit" />     
+    <input type="hidden" name="paymentName" id="paymentName" />
+    <input type="hidden" name="TradeTotalAMT" id="TradeTotalAMT" />
+    <input type="hidden" name="CardNo" id="CardNo" value="0" /> 
+    <input type="hidden" name="CardValidMM" id="CardValidMM" value="0" />
+    <input type="hidden" name="CardValidYY" id="CardValidYY" value="0" />
+    <input type="hidden" name="CardAuthCode" id="CardAuthCode" value="0" />
+    <input type="hidden" name="CreditCardID" id="CreditCardID" value="0" />
+    <input type="hidden" name="TradeInstmt" id="TradeInstmt" />
+    <input type="hidden" name="InstallmentAmount" id="InstallmentAmount" />
+    <input type="hidden" name="Redeem" id="Redeem" value=""/>
+    <input type="hidden" name="ChoosePayment" id="ChoosePayment" value="Credit" />
+    <input type="hidden" name="CellPhone" id="CellPhone" />
+    <input type="hidden" name="UnionPay" id="UnionPay" value="0" />
+    <input type="hidden" name="ShoppingAMT" id="ShoppingAMT" value="0" />
+    <input type="hidden" name="BalanceAMT" id="BalanceAMT" value="0" />
+    <input type="hidden" name="CVSStoreID" id="CVSStoreID" />    
+    <input type="hidden" name="CVSStoreName" id="CVSStoreName" />    
+    <input type="hidden" name="CVSAddress" id="CVSAddress" />    
+    <input type="hidden" name="CVSTelephone" id="CVSTelephone" />
+    <input type="hidden" name="IsB2C" id="IsB2C" value="true" />
+    <input type="hidden" name="ReceiverName" id="ReceiverName" />
+    <input type="hidden" name="ReceiverZipCode" id="ReceiverZipCode" />                
+    <input type="hidden" name="ReceiverAddress" id="ReceiverAddress" />
+    <input type="hidden" name="ReceiverCellPhone" id="ReceiverCellPhone" />
+    <input type="hidden" name="Remark" id="Remark" />
+    <input type="hidden" name="CardHolder" id="CardHolder" />
+    <input type="hidden" name="PlatformID" />
+    <input type="hidden" name="AllPayID" />
+    <input type="hidden" name="AccountID" />
+    <input type="hidden" name="IngronAuth" />
+    <input type="hidden" name="EnableMobileServerCall" />
+    <input type="hidden" name="EnableWebServerCall" />
+    <input type="hidden" name="BankCode" id="BankCode" />
+    <input type="hidden" name="paymentMethodToken" id="paymentMethodToken" />
+</form><!-- InstanceEndEditable -->
+
+
+
+    
+    
+
+      <!-- footer -->
+      <div class="footer sell_footer">
+          <div class="container relative">
+
+                  <div class="sf-content">
+                      <p class="sfc-txt">金流服務由 綠界科技ECPay 提供</p>
+                      <p class="sfc-txt"><span>02-2655-1775 (09:00 – 18:00)</span></p>
+                      <dl class="sfc-list">
+                          <dt><a href="https://www-stage.ecpay.com.tw/CreditCard/Privacy_20131226" target="_blank">隱私權政策</a></dt>
+                          <dt><a href="https://www-stage.ecpay.com.tw/About/return" target="_blank">退/換貨提醒</a></dt>
+                      </dl>
+                      <p class="sfc-copyright"><span id="_footerCopyright">Copyright © 1996-2019 Green World FinTech Service Co., Ltd. All rights reserved.</span></p>
+                  </div>
+
+
+              <div class="sf-certified">
+                     <img src="/Content/images/comodo_secure_seal_100x85_transp.png" />
+                     <br /><br /><p class="sfc-txt">SSL Certificate</p>
+              </div>
+
+          </div>
+      </div>
+      <!-- End: footer -->
+</div>
+<!-- End: wrapper -->
+</body>
+</html>
