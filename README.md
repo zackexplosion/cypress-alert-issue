@@ -17,5 +17,7 @@ npm run static
 ```
 npm run express
 ```
-
-
+## Finally, start cypress
+```
+npm run cypress:run
+```

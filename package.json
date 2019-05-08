@@ -14,6 +14,7 @@
     "static": "http-server .",
     "express": "node app.js",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
